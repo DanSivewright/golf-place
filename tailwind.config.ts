@@ -3,11 +3,11 @@ import type { Config } from "tailwindcss"
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -74,7 +74,28 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    ({ addComponents, theme }: any) => {
+      const lg = theme("screens.lg", {})
+      const xl = theme("screens.xl", {})
+      addComponents({
+        ".gutter": {
+          paddingLeft: theme("spacing.6"),
+          paddingRight: theme("spacing.6"),
+          [`@media (min-width: ${lg})`]: {
+            paddingLeft: theme("spacing.12"),
+            paddingRight: theme("spacing.12"),
+          },
+          [`@media (min-width: ${xl})`]: {
+            paddingLeft: theme("spacing.24"),
+            paddingRight: theme("spacing.24"),
+          },
+        },
+      })
+    },
+    require("@tailwindcss/typography"),
+    require("tailwindcss-animate"),
+  ],
 } satisfies Config
 
 export default config
